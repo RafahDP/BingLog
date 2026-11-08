@@ -1,8 +1,8 @@
 # Tracker de Séries
 
-API REST para manter um catálogo de séries, animes e outras mídias, com informações de progresso e status.
+API REST em desenvolvimento para manter um catálogo de séries, animes e outras mídias, incluindo progresso e status.
 
-> Atualmente, os dados ficam apenas na memória do servidor. Eles são reiniciados quando a aplicação é encerrada ou reiniciada.
+Os dados são mantidos em memória e reiniciam quando o servidor é encerrado. O repositório inicia com a mídia `One Piece` como exemplo.
 
 ## Tecnologias
 
@@ -28,20 +28,22 @@ Inicie o servidor em modo de desenvolvimento:
 npm run dev
 ```
 
-O servidor fica disponível em `http://localhost:3000`.
+O servidor está configurado para usar `http://localhost:3000`.
 
-## Endpoints
+> **Atenção:** no estado atual, os caminhos dos imports impedem a inicialização. `server.js` importa `routes/mediaRoutes.js`, mas o arquivo existente é `routes/mediaRoute.js`; esse arquivo, por sua vez, importa `controllers/MediaController.js`, enquanto o controller está em `src/resources/MediaController.js`. Ajuste esses caminhos no código antes de executar a API.
 
-Todas as rotas de mídia usam o prefixo `/medias` e recebem ou retornam JSON.
+## Endpoints implementados
+
+As rotas configuradas usam o prefixo `/medias` e recebem ou retornam JSON.
 
 | Método | Rota | Descrição |
 | --- | --- | --- |
-| `GET` | `/` | Verifica se a API está operante |
 | `GET` | `/medias` | Lista todas as mídias |
-| `GET` | `/medias/:id` | Busca uma mídia pelo ID |
 | `POST` | `/medias` | Cadastra uma mídia |
-| `PUT` | `/medias/:id` | Atualiza o progresso e/ou status |
+| `PUT` | `/medias/:id` | Atualiza o progresso e o status |
 | `DELETE` | `/medias/:id` | Remove uma mídia |
+
+O controller também contém uma busca por ID (`getById`), mas ela ainda não está conectada a uma rota.
 
 ### Modelo de mídia
 
@@ -56,7 +58,7 @@ Todas as rotas de mídia usam o prefixo `/medias` e recebem ou retornam JSON.
 }
 ```
 
-No cadastro, `title` e `type` são obrigatórios. `totalEpisodes` e `currentEpisode` assumem o valor `0` quando omitidos; `status` assume `Planned`.
+No cadastro, `title` e `type` são obrigatórios. `totalEpisodes` e `currentEpisode` assumem o valor `0` quando omitidos; `status` assume `Planned`. O `id` é gerado pelo repositório.
 
 ### Exemplos de requisição
 
@@ -72,7 +74,7 @@ Cadastrar uma mídia (`POST /medias`):
 }
 ```
 
-Atualizar o progresso (`PUT /medias/1`):
+Atualizar uma mídia (`PUT /medias/1`):
 
 ```json
 {
@@ -81,12 +83,15 @@ Atualizar o progresso (`PUT /medias/1`):
 }
 ```
 
-O `PUT` permite enviar apenas um dos campos (`currentEpisode` ou `status`) para atualizar.
+Envie `currentEpisode` e `status` na atualização: o repositório atribui os dois campos recebidos ao objeto.
 
-## Respostas de erro
+### Respostas
 
-- `400 Bad Request`: cadastro sem `title` ou `type`.
-- `404 Not Found`: ID de mídia não encontrado.
+- `POST` retorna `201 Created` e a mídia criada.
+- `PUT` retorna `200 OK` e a mídia atualizada; retorna `404 Not Found` se o ID não existir.
+- `DELETE` retorna `200 OK` com uma mensagem de sucesso; retorna `404 Not Found` se o ID não existir.
+- `GET /medias` retorna `200 OK` e a lista de mídias.
+- `POST` retorna `400 Bad Request` quando `title` ou `type` não forem informados.
 
 ## Estrutura do projeto
 
@@ -94,6 +99,8 @@ O `PUT` permite enviar apenas um dos campos (`currentEpisode` ou `status`) para 
 .
 ├── server.js
 ├── package.json
+├── routes
+│   └── mediaRoute.js
 └── src
     ├── entities
     │   └── Media.js
@@ -102,5 +109,3 @@ O `PUT` permite enviar apenas um dos campos (`currentEpisode` ou `status`) para 
     └── resources
         └── MediaController.js
 ```
-
-O servidor e as rotas descritas neste README estão implementados em `server.js`. Os módulos em `src/` representam uma estrutura em desenvolvimento.
