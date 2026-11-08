@@ -22,10 +22,28 @@ class MediaController {
     if (!title || !type) {
       return res.status(400).json({ error: 'Media cant be created' })
     }
-    const createmedia = mediaRepository.findAllAndCreate(req.body)
-    return res.status(201).json(createmedia)
+    const createdmedia = mediaRepository.findAllAndCreate(req.body)
+    return res.status(201).json(createdmedia)
   }
-
+  //4. Atualiza mídia existente
+  updateMedia(req, res) {
+    const { id } = req.params;
+    const { currentEpisode, status } = req.body;
+    const update = mediaRepository.update(id, { currentEpisode, status })
+    if (!update) {
+      return res.status(404).json({ error: "Media not found" })
+    }
+    return res.status(200).json(update);
+  }
+  //5. Deleta Mídia extistente
+  deleteMedia(req, res) {
+    const { id } = req.params
+    const deletedMedia = mediaRepository.delete(id)
+    if (!deletedMedia) {
+      return res.status(404).json({ error: "Media can't be deleted" })
+    }
+    return res.status(200).json({ message: 'Media deleted succesfully!' })
+  }
 }
 
 export default new MediaController();
