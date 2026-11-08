@@ -1,5 +1,5 @@
 import express from 'express';
-import mediaRoute from './routes/mediaRoutes.js';
+import mediaRoute from './routes/mediaRoute.js';
 
 const app = express();
 const port = 3000;

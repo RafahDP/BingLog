@@ -45,3 +45,5 @@ export class MediaRepository {
         return true;
     }
 }
+
+export default new MediaRepository();

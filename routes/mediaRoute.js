@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import mediaController from '../controllers/MediaController.js';
+import mediaController from '../src/resources/MediaController.js';
 
 const router = Router();
 
