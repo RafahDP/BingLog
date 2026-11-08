@@ -1,6 +1,6 @@
 import mediaRepository from '../repositories/MediaRepository.js';
 
-class MediaController {
+export class MediaController {
   // 1. Listar todas as mídias
   getAll(req, res) {
     const medias = mediaRepository.findAll();
