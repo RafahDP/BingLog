@@ -25,12 +25,7 @@ export class MediaRepository{
        const newId = this.medias.length > 0 ? this.medias[this.medias.length - 1].id + 1 : 1;
        const media = new Media({ ...mediaData, id: newId });
        this.medias.push(media);
-       return media({
-        id: newId,
-        ...mediaData
-       });
-        this.medias.push(newMedia);
-        return newMedia;
+       return media; 
    }
    update(id, { currentEpisode, status}){
         const media = this.findById(id);
