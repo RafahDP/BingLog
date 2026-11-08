@@ -28,9 +28,7 @@ Inicie o servidor em modo de desenvolvimento:
 npm run dev
 ```
 
-O servidor está configurado para usar `http://localhost:3000`.
-
-> **Atenção:** no estado atual, os caminhos dos imports impedem a inicialização. `server.js` importa `routes/mediaRoutes.js`, mas o arquivo existente é `routes/mediaRoute.js`; esse arquivo, por sua vez, importa `controllers/MediaController.js`, enquanto o controller está em `src/resources/MediaController.js`. Ajuste esses caminhos no código antes de executar a API.
+O servidor está configurado para usar `http://localhost:3000`. Os imports do servidor, da rota, do controller e do repositório estão conectados aos arquivos existentes.
 
 ## Endpoints implementados
 
