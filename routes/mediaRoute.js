@@ -4,6 +4,7 @@ import mediaController from '../src/resources/MediaController.js';
 const router = Router();
 
 router.get('/medias', mediaController.getAll)
+router.get('/medias/:id', mediaController.getById)
 router.post('/medias',mediaController.createMedia)
 router.put('/medias/:id', mediaController.updateMedia)
 router.delete('/medias/:id', mediaController.deleteMedia)
